@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/ecommerce-pipeline/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "builder": "rspack",
+    "tsConfigPath": "apps/ecommerce-pipeline/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/ecommerce-pipeline",
+  "projects": {
+    "api": {
+      "type": "application",
+      "root": "apps/api",
+      "entryFile": "main",
+      "sourceRoot": "apps/api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api/tsconfig.app.json"
+      }
+    },
+    "billing": {
+      "type": "application",
+      "root": "apps/billing",
+      "entryFile": "main",
+      "sourceRoot": "apps/billing/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/billing/tsconfig.app.json"
+      }
+    },
+    "ecommerce-pipeline": {
+      "type": "application",
+      "root": "apps/ecommerce-pipeline",
+      "entryFile": "main",
+      "sourceRoot": "apps/ecommerce-pipeline/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/ecommerce-pipeline/tsconfig.app.json"
+      }
+    },
+    "inventory": {
+      "type": "application",
+      "root": "apps/inventory",
+      "entryFile": "main",
+      "sourceRoot": "apps/inventory/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/inventory/tsconfig.app.json"
+      }
+    },
+    "notifications": {
+      "type": "application",
+      "root": "apps/notifications",
+      "entryFile": "main",
+      "sourceRoot": "apps/notifications/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notifications/tsconfig.app.json"
+      }
+    }
+  }
+}
