@@ -21,7 +21,21 @@
     "types": [
       "vitest/globals",
       "node"
-    ]
+    ],
+    "paths": {
+      "@app/messaging": [
+        "./libs/messaging/src/index.ts"
+      ],
+      "@app/messaging/*": [
+        "./libs/messaging/src/*"
+      ],
+      "@lib/messaging": [
+        "./libs/messaging/src/index.ts"
+      ],
+      "@lib/messaging/*": [
+        "./libs/messaging/src/*"
+      ]
+    }
   },
   "files": [],
   "references": [

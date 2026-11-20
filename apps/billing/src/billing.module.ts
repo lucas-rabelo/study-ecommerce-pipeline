@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { BillingController } from './billing.controller.js';
-import { BillingService } from './billing.service.js';
+import { ConfigModule } from '@nestjs/config';
+import { BillingConsumer } from './billing.consumer.js';
 
 @Module({
-  imports: [],
-  controllers: [BillingController],
-  providers: [BillingService],
+  imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' })],
+  providers: [BillingConsumer],
 })
 export class BillingModule {}
