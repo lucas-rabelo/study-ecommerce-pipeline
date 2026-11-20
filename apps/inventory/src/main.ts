@@ -3,6 +3,6 @@ import { InventoryModule } from './inventory.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(InventoryModule);
-  await app.listen(process.env.port ?? 3000);
+  await app.listen(process.env.INVENTORY_PORT ?? 5003);
 }
 await bootstrap();
