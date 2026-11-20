@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ApiController } from './api.controller.js';
-import { ApiService } from './api.service.js';
+import { ConfigModule } from '@nestjs/config';
+import { OrdersController } from './orders/orders.controller.js';
+import { SnsService } from './sns/sns.service.js';
 
 @Module({
-  imports: [],
-  controllers: [ApiController],
-  providers: [ApiService],
+  imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' })],
+  controllers: [OrdersController],
+  providers: [SnsService],
 })
 export class ApiModule {}
