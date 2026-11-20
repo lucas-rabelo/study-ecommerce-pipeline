@@ -18,11 +18,18 @@ EOF
 )
   awslocal sqs create-queue --queue-name ${SERVICE}-queue --attributes "$ATTRS"
 
-  # 3. Assinatura no tópico (igual à Etapa 1)
+  if [ "$SERVICE" = "notifications" ]; then
+    FILTER='{\"eventType\":[\"OrderCreated\",\"OrderCancelled\"]}'
+  else
+    FILTER='{\"eventType\":[\"OrderCreated\"]}'
+  fi
+  SUB_ATTRS="{\"RawMessageDelivery\":\"true\",\"FilterPolicy\":\"$FILTER\"}"
+
   awslocal sns subscribe \
     --topic-arn $TOPIC_ARN \
     --protocol sqs \
-    --notification-endpoint arn:aws:sqs:$REGION:000000000000:${SERVICE}-queue
+    --notification-endpoint arn:aws:sqs:$REGION:000000000000:${SERVICE}-queue \
+    --attributes "$SUB_ATTRS"
 done
 
 echo "✅ SNS + SQS + DLQs prontos"

@@ -8,7 +8,11 @@ export class NotificationsConsumer extends BaseSqsConsumer {
     super(config, 'Notifications', 'NOTIFICATIONS_QUEUE_URL');
   }
 
-  protected async handle(order: OrderCreated) {
-    this.logger.log(`✉️  E-mail enviado para ${order.customerEmail}`);
+  protected async handle(payload: any, eventType: string) {
+    if (eventType === 'OrderCancelled') {
+      this.logger.log(`❌ Pedido ${payload.orderId} cancelado, cliente avisado`);
+      return;
+    }
+    this.logger.log(`✉️  E-mail enviado para ${payload.customerEmail}`);
   }
 }

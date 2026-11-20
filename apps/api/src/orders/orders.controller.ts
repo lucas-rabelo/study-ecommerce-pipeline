@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { SnsService } from '../sns/sns.service.js';
 
@@ -15,5 +15,14 @@ export class OrdersController {
     };
     const messageId = await this.sns.publish('OrderCreated', order);
     return { orderId: order.orderId, messageId };
+  }
+
+  @Post(':id/cancel')
+  async cancel(@Param('id') id: string) {
+    const messageId = await this.sns.publish('OrderCancelled', {
+      orderId: id,
+      cancelledAt: new Date().toISOString(),
+    });
+    return { orderId: id, messageId };
   }
 }

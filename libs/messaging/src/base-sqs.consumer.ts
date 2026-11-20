@@ -22,8 +22,7 @@ export abstract class BaseSqsConsumer implements OnModuleInit, OnModuleDestroy {
     this.logger = new Logger(name);
   }
 
-  /** Regra de negócio: lance exceção para NÃO confirmar a mensagem. */
-  protected abstract handle(order: OrderCreated, attempt: number): Promise<void>;
+  protected abstract handle(payload: any, eventType: string, attempt: number): Promise<void>;
 
   onModuleInit() {
     this.consumer = Consumer.create({
@@ -34,15 +33,16 @@ export abstract class BaseSqsConsumer implements OnModuleInit, OnModuleDestroy {
       }),
       waitTimeSeconds: 20,
       messageSystemAttributeNames: ['ApproximateReceiveCount'],
+      messageAttributeNames: ['All'],
       handleMessage: async (message) => {
-        const envelope = JSON.parse(message.Body!);
-        const order: OrderCreated = JSON.parse(envelope.Message);
+        const payload = JSON.parse(message.Body!); // um parse só
+        const eventType = message.MessageAttributes?.eventType?.StringValue ?? 'unknown';
         const attempt = Number(message.Attributes?.ApproximateReceiveCount ?? 1);
 
-        this.logger.log(`Tentativa ${attempt} | pedido ${order.orderId}`);
-        await this.handle(order, attempt);
-        return message; // ack: só chega aqui se handle() não lançou erro
-      },
+        this.logger.log(`Tentativa ${attempt} | ${eventType}`);
+        await this.handle(payload, eventType, attempt);
+        return message;
+      }
     });
 
     this.consumer.on('error', (err) => this.logger.error(err.message));
