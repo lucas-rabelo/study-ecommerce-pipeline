@@ -4,6 +4,7 @@ import { SQSClient } from '@aws-sdk/client-sqs';
 import { Consumer } from 'sqs-consumer';
 
 export interface OrderCreated {
+  eventId: string;
   orderId: string;
   createdAt: string;
   customerEmail: string;
